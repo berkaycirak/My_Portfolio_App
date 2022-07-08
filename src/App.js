@@ -7,7 +7,8 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
-          <Route></Route>
+          <Route>
+          </Route>
         </Routes>
       </Router>
     </div>
