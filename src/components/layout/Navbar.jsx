@@ -1,6 +1,5 @@
 function Navbar() {
-  return <div>Portfolio Navbar
-    
+  return <div> Navbar
   </div>;
 }
 
