@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useState } from 'react';
 import './ContactForm.styles.scss';
 
@@ -6,10 +7,8 @@ function ContactForm() {
 		firstName: '',
 		lastName: '',
 		email: '',
-		phone: '',
 		message: '',
 	};
-
 	const [formDetails, setFormDetails] = useState(formInitialDetails);
 	const [buttonText, setButtonText] = useState('Send');
 	const [status, setStatus] = useState({});
@@ -20,11 +19,33 @@ function ContactForm() {
 			[category]: value,
 		});
 	};
+	const formId = '94bcg9Fo';
+	const formUrl = `https://submit-form.com/${formId}`;
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		await postSubmission();
+		setButtonText('Form is sent');
+	};
+
+	const postSubmission = async () => {
+		const payload = {
+			...formDetails,
+		};
+		try {
+			setButtonText('Form is sending');
+			const result = await axios.post(formUrl, payload);
+
+			console.log(result);
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	return (
 		<section className='contact' id='connect'>
 			<div className='container'>
-				<form>
+				<form onSubmit={handleSubmit}>
 					<div>
 						<input
 							type='text'
@@ -59,6 +80,21 @@ function ContactForm() {
 								onFormUpdate('message', e.target.value);
 							}}
 						/>
+
+						<button type='submit'>
+							<span>{buttonText}</span>
+						</button>
+						{status.message && (
+							<div>
+								<p
+									className={
+										status.success === false ? 'danger' : 'success'
+									}>
+									{' '}
+									{status.message}
+								</p>{' '}
+							</div>
+						)}
 					</div>
 				</form>
 			</div>
